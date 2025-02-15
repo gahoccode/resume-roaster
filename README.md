@@ -1,5 +1,5 @@
 ---
-title: First Agent Template
+title: Resume Roaster
 emoji: ⚡
 colorFrom: pink
 colorTo: yellow
