@@ -18,12 +18,13 @@ def process_resume(input_method, resume_text, pdf_file):
     else:
         if pdf_file is None:
             return "No PDF uploaded."
-        # Check if pdf_file is a string (i.e. a file path) or a file-like object
+        # pdf_file may be a file path or a file-like object; handle accordingly
         if isinstance(pdf_file, str):
             with open(pdf_file, "rb") as f:
                 file_bytes = f.read()
         else:
             file_bytes = pdf_file.read()
+        import io
         file_obj = io.BytesIO(file_bytes)
         text = extract_text_from_pdf(file_obj)
     
@@ -31,10 +32,10 @@ def process_resume(input_method, resume_text, pdf_file):
         return "No resume text found."
     
     agent = create_agent()
-    # Instruct the agent to roast the resume using the resume text.
+    # Directly run the agent to roast the resume. With our updated prompts,
+    # the agent should output plain text that we can simply print.
     response = agent.run(f"Roast this resume: {text}")
     return response
-
 
 def toggle_inputs(method):
     if method == "Text":
