@@ -22,7 +22,7 @@ def create_agent():
     final_answer = FinalAnswerTool()
     resume_scraper = ResumeScraperTool()
     
-    # Initialize our model using Qwen/Qwen2.5-Coder-32B-Instruct
+    # Instantiate HfApiModel using Qwen/Qwen2.5-Coder-32B-Instruct for roasting.
     model = HfApiModel(
         max_tokens=2096,
         temperature=0.5,
@@ -30,8 +30,9 @@ def create_agent():
         custom_role_conversions=None,
     )
     
-    # Use the dedicated InferenceClient endpoint if needed:
+    # Create a dedicated InferenceClient using your public endpoint
     client = InferenceClient("https://jc26mwg228mkj8dw.us-east-1.aws.endpoints.huggingface.cloud")
+    # Override the model's client with our dedicated client
     model.client = client
 
     with open("prompts.yaml", 'r') as stream:
