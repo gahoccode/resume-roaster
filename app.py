@@ -41,7 +41,7 @@ def create_agent():
     agent = CodeAgent(
         model=model,
         tools=[resume_scraper, final_answer],
-        max_steps=2,
+        max_steps=1,
         verbosity_level=1,
         prompt_templates=prompt_templates
     )
