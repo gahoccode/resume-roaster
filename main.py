@@ -139,7 +139,7 @@ with gr.Blocks(css=css_custom, theme=gr.themes.Monochrome()) as demo:
             pdf_file = gr.File(label="Upload Resume PDF", file_types=[".pdf"], visible=True)
             resume_text = gr.Textbox(label="Resume Text", lines=10, visible=False)
         
-        output = gr.Textbox(label="Roast Result", lines=10)
+        output = gr.Markdown(label="Roast Result", lines=10)
         submit_btn = gr.Button("Roast It!")
     
     input_method.change(fn=toggle_inputs, inputs=input_method, outputs=[pdf_file, resume_text])
