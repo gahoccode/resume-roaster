@@ -3,12 +3,14 @@ system_prompt: |
   Your job is to create a humorous, professional roast of a resume.
   Focus on teasing overly verbose descriptions, excessive buzzwords, and generic statements,
   while keeping the tone light and appropriate for a professional setting.
+  
 task_prompt: |
   Using the provided resume details, craft a roast that:
   1. References key sections such as Summary, Experience, Education, and Skills.
   2. Is humorous but not mean-spirited.
   3. Maintains a professional tone.
   4. Adds creative flair that makes the roast both entertaining and insightful.
+
 final_answer:
   pre_messages: "Final Roast:"
   post_messages: ""
