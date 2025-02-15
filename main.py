@@ -71,6 +71,7 @@ footer {visibility: hidden;}
   -webkit-text-fill-color: transparent;
   animation: fireAnimation 3s linear infinite;
 }
+
 @keyframes fireAnimation {
   0% { background-position: 0%; }
   50% { background-position: 100%; }
@@ -136,14 +137,15 @@ with gr.Blocks(css=css_custom, theme=gr.themes.Monochrome()) as demo:
         
         # Wrap the file and text inputs in a centered container.
         with gr.Row(elem_classes="center"):
-            pdf_file = gr.File(label="Upload Resume PDF", file_types=[".pdf"], visible=True)
-            resume_text = gr.Textbox(label="Resume Text", lines=10, visible=False)
+              pdf_file = gr.File(label="Upload Resume PDF", file_types=[".pdf"], visible=True)
+              resume_text = gr.Textbox(label="Resume Text", lines=10, visible=False, elem_id="wide-textbox")
+
         
         outputs=gr.Markdown(label="Roast Result")
         submit_btn = gr.Button("Roast It!")
     
     input_method.change(fn=toggle_inputs, inputs=input_method, outputs=[pdf_file, resume_text])
-    submit_btn.click(fn=process_resume, inputs=[input_method, resume_text, pdf_file], outputs=output)
+    submit_btn.click(fn=process_resume, inputs=[input_method, resume_text, pdf_file], outputs=outputs)
     
     gr.Markdown(
         """
