@@ -38,7 +38,7 @@ def process_resume(input_method, resume_text, pdf_file):
     return response
 
 def toggle_inputs(method):
-    # Updated order: pdf_file first, then resume_text.
+    # Toggle PDF and text input visibility.
     if method == "Text":
         return gr.update(visible=False), gr.update(visible=True)
     else:
@@ -47,8 +47,12 @@ def toggle_inputs(method):
 css_custom = """
 footer {visibility: hidden;}
 .center { 
-  margin: 0 auto; 
-  text-align: center; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  text-align: center;
+  gap: 10px;
 }
 @keyframes beat {
   0%, 20%, 40%, 60%, 80%, 100% { transform: scale(1); }
@@ -79,23 +83,65 @@ div[role="radiogroup"] {
 }
 """
 
-# Inject the CSS via the head parameter
-head_injection = f"<style>{css_custom}</style>"
+import gradio as gr
+import io
+from PyPDF2 import PdfReader
+from app import create_agent
 
-with gr.Blocks(head=head_injection) as demo:
+def extract_text_from_pdf(file_obj) -> str:
+    reader = PdfReader(file_obj)
+    text = ""
+    for page in reader.pages:
+        page_text = page.extract_text()
+        if page_text:
+            text += page_text + "\n"
+    return text
+
+def process_resume(input_method, resume_text, pdf_file):
+    if input_method == "Text":
+        text = resume_text
+    else:
+        if pdf_file is None:
+            return "No PDF uploaded."
+        if isinstance(pdf_file, str):
+            with open(pdf_file, "rb") as f:
+                file_bytes = f.read()
+        else:
+            pdf_file.seek(0)
+            file_bytes = pdf_file.read()
+        file_obj = io.BytesIO(file_bytes)
+        text = extract_text_from_pdf(file_obj)
+    
+    if not text.strip():
+        return "No resume text found."
+    
+    agent = create_agent()
+    response = agent.run(f"Roast this resume: {text}")
+    return response
+
+def toggle_inputs(method):
+    if method == "Text":
+        return gr.update(visible=False), gr.update(visible=True)
+    else:
+        return gr.update(visible=True), gr.update(visible=False)
+
+with gr.Blocks(css=css_custom, theme=gr.themes.Monochrome()) as demo:
     with gr.Column(elem_classes="center"):
         gr.Markdown('<div class="fire-effect">Resume Roaster</div>')
         gr.Markdown("Upload your resume as a PDF (default) or paste the text to receive a humorous, professional roast!")
-    
-        # Reordered radio choices so that PDF is first.
-        input_method = gr.Radio(choices=["PDF", "Text"], label="Input Method", value="PDF")
-        # PDF upload comes first
-        pdf_file = gr.File(label="Upload Resume PDF", file_types=[".pdf"], visible=True)
-        resume_text = gr.Textbox(label="Resume Text", lines=10, visible=False)
+        
+        # Instead of the built-in label, add a custom left-aligned heading:
+        gr.Markdown("<div style='text-align: left; width: 100%; font-weight: bold;'>Select Input Method</div>")
+        input_method = gr.Radio(choices=["PDF", "Text"], value="PDF", show_label=False)
+        
+        # Wrap the file and text inputs in a centered container.
+        with gr.Row(elem_classes="center"):
+            pdf_file = gr.File(label="Upload Resume PDF", file_types=[".pdf"], visible=True)
+            resume_text = gr.Textbox(label="Resume Text", lines=10, visible=False)
+        
         output = gr.Textbox(label="Roast Result", lines=10)
         submit_btn = gr.Button("Roast It!")
     
-    # Adjust toggle outputs to match new order.
     input_method.change(fn=toggle_inputs, inputs=input_method, outputs=[pdf_file, resume_text])
     submit_btn.click(fn=process_resume, inputs=[input_method, resume_text, pdf_file], outputs=output)
     
