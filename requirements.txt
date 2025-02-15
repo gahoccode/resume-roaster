@@ -1,6 +1,0 @@
-gradio
-langchain
-PyYAML
-PyMuPDF
-transformers
-smolagents
