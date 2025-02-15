@@ -25,7 +25,7 @@ def create_agent():
     # Instantiate HfApiModel using Qwen/Qwen2.5-Coder-32B-Instruct for roasting.
     model = HfApiModel(
         max_tokens=2096,
-        temperature=0.5,
+        temperature=0.7,
         model_id='Qwen/Qwen2.5-Coder-32B-Instruct',
         custom_role_conversions=None,
     )
@@ -41,7 +41,7 @@ def create_agent():
     agent = CodeAgent(
         model=model,
         tools=[resume_scraper, final_answer],
-        max_steps=6,
+        max_steps=2,
         verbosity_level=1,
         prompt_templates=prompt_templates
     )
