@@ -23,6 +23,8 @@ def process_resume(input_method, resume_text, pdf_file):
             with open(pdf_file, "rb") as f:
                 file_bytes = f.read()
         else:
+            # Ensure the file pointer is at the beginning
+            pdf_file.seek(0)
             file_bytes = pdf_file.read()
         file_obj = io.BytesIO(file_bytes)
         text = extract_text_from_pdf(file_obj)
@@ -77,7 +79,10 @@ div[role="radiogroup"] {
 }
 """
 
-with gr.Blocks(css=css_custom) as demo:
+# Inject the CSS via the head parameter
+head_injection = f"<style>{css_custom}</style>"
+
+with gr.Blocks(head=head_injection) as demo:
     with gr.Column(elem_classes="center"):
         gr.Markdown('<div class="fire-effect">Resume Roaster</div>')
         gr.Markdown("Upload your resume as a PDF (default) or paste the text to receive a humorous, professional roast!")
@@ -90,7 +95,7 @@ with gr.Blocks(css=css_custom) as demo:
         output = gr.Textbox(label="Roast Result", lines=10)
         submit_btn = gr.Button("Roast It!")
     
-    # Adjusted toggle outputs to match new order.
+    # Adjust toggle outputs to match new order.
     input_method.change(fn=toggle_inputs, inputs=input_method, outputs=[pdf_file, resume_text])
     submit_btn.click(fn=process_resume, inputs=[input_method, resume_text, pdf_file], outputs=output)
     
