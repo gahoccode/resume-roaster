@@ -50,7 +50,7 @@ def create_agent():
     model = HfApiModel(
         max_tokens=2096,
         temperature=0.5,
-        model_id='tiiuae/falcon-7b-instruct',
+        model_id='Qwen/Qwen2.5-Coder-32B-Instruct',
         custom_role_conversions=None,
     )
 
