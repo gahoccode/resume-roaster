@@ -2,7 +2,7 @@ import yaml
 from smolagents import CodeAgent, HfApiModel
 from smolagents.tools import Tool
 from tools.resumescraper import ResumeScraperTool
-from huggingface_hub.inference import InferenceClient
+from huggingface_hub import InferenceClient
 
 class FinalAnswerTool(Tool):
     name = "final_answer"
