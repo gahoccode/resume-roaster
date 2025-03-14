@@ -19,6 +19,13 @@ tags:
 
 A fun application that "roasts" your resume in a humorous but professional way.
 
+## Credits
+
+This project was originally created by [Kuber Mehta](https://github.com/Kuberwastaken) and is hosted on Hugging Face Spaces:
+[https://huggingface.co/spaces/Kuberwastaken/resume-roaster](https://huggingface.co/spaces/Kuberwastaken/resume-roaster)
+
+This repository is a fork with additional Docker configuration and local model support.
+
 ## Setup and Running Locally
 
 1. Install dependencies:
