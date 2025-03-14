@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  resume-roaster:
+    build: .
+    ports:
+      - "7860:7860"
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    environment:
+      - GRADIO_SERVER_NAME=0.0.0.0
+    restart: unless-stopped
+    # If you want to use Ollama, uncomment the following lines
+    # depends_on:
+    #   - ollama
+    networks:
+      - resume-roaster-network
+
+  # Uncomment this service if you want to use Ollama locally
+  # ollama:
+  #   image: ollama/ollama:latest
+  #   volumes:
+  #     - ollama_data:/root/.ollama
+  #   ports:
+  #     - "11434:11434"
+  #   restart: unless-stopped
+  #   networks:
+  #     - resume-roaster-network
+
+networks:
+  resume-roaster-network:
+    driver: bridge
+
+# Uncomment if using Ollama
+# volumes:
+#   ollama_data:

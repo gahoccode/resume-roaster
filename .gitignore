@@ -1,0 +1,49 @@
+# Python virtual environment
+venv/
+env/
+ENV/
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Environment variables
+.env
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Logs
+*.log
+
+# Local development settings
+.DS_Store
+Thumbs.db
+
+# Gradio temporary files
+flagged/
+tmp/
+
+# Large model files
+*.onnx
+*.pt
+*.pth
+*.bin
+
+# Ollama model files
+.ollama/
+
+# Temporary files
+*.tmp

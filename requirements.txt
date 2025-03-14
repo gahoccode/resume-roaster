@@ -4,3 +4,5 @@ PyYAML
 smolagents
 python-dotenv
 huggingface_hub
+openai
+requests
